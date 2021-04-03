@@ -1,22 +1,22 @@
 <?php
 include "mysqlClass.inc.php";
 
-function   user_pass_check ( $username ,  $password )
+function user_pass_check ($username, $password )
 {
-     global   $db ;
-     $query  =  "select * from account where username=' $username '" ;
-     $result  =  mysqli_query ( $db -> db_connect_id ,  $query );
-     if  (! $result )
+     global $db;
+     $query = "select * from account where username='$username'";
+     $result = mysqli_query($db->db_connect_id, $query);
+     if  (!$result)
     {
-        die  ( "user_pass_check() failed. Could not query the database: <br />" .   mysqli_error ( $db -> db_connect_id ));
+        die("user_pass_check() failed. Could not query the database: <br />" . mysqli_error ($db->db_connect_id));
 
     }
      else {
-         $row  =  mysqli_fetch_row ( $result );
-         if ( strcmp ( $row [ 1 ], $password ))
-             return   2 ;  //wrong password
+         $row = mysqli_fetch_row($result);
+         if (strcmp($row[1], $password))
+             return 2;  //wrong password
          else  
-             return   0 ;  //Checked.
+             return 0;  //Checked.
     }   
 }
 
