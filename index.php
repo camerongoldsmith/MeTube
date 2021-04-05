@@ -43,7 +43,7 @@ if(isset($_POST['submit'])) {
 		</tr>
 	</table>
 	</form>
-
+	<h3>Need an account? Register <a href="register.php">here</a>!</h3>
 <?php
   if(isset($login_error))
    {  echo "<div id='passwd_result'>".$login_error."</div>";}

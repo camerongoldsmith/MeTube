@@ -15,7 +15,7 @@
 <?php
 if(isset($_GET['id'])) {
 	$query = "SELECT * FROM media WHERE mediaid='".$_GET['id']."'";
-	$result = mysqli_query( $query );
+	$result = mysqli_query($db->db_connect_id, $query);
 	$result_row = mysqli_fetch_row($result);
 	
 	updateMediaTime($_GET['id']);

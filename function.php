@@ -22,11 +22,12 @@ function user_pass_check ($username, $password )
 
 function updateMediaTime($mediaid)
 {
+	global $db;
 	$query = "	update  media set lastaccesstime=NOW()
    						WHERE '$mediaid' = mediaid
 					";
 					 // Run the query created above on the database through the connection
-    $result = mysqli_query( $query );
+    $result = mysqli_query($db->db_connect_id, $query);
 	if (!$result)
 	{
 	   die ("updateMediaTime() failed. Could not query the database: <br />". mysqli_error());
@@ -54,9 +55,32 @@ function upload_error($result)
 	}
 }
 
-function other()
+function add_account_to_db($username, $password, $email)
 {
-	//You can write your own functions here.
+    $exists = user_exists_check($username);
+	if($exists == 1){
+		//Tell user that that user already exists and exit
+	}else{
+		
+	}
 }
-	
+
+function user_exists_check($username)
+{
+	global $db;
+     $query = "select * from account where username='$username'";
+     $result = mysqli_query($db->db_connect_id, $query);
+	 $exists = mysqli_num_ros($result);
+     if  (!$result)
+    {
+        die("user_pass_check() failed. Could not query the database: <br />" . mysqli_error ($db->db_connect_id));
+    }
+     else {
+         if($exists > 0){
+			 return 1; //User exists
+		 }else{
+			 return 0; //User doesn't exist
+		 }
+    }
+}
 ?>
