@@ -24,7 +24,8 @@ function saveDownload(id)
 </head>
 
 <body>
-<p>Welcome <?php echo $_SESSION['username'];?></p>
+<h1>Welcome <?php echo $_SESSION['username'];?>, to MeTube!</h1>
+<h42>Click here to <a href="logout.php" title="Logout">Logout.</h4><br/><br/>
 <a href='media_upload.php'  style="color:#FF9900;">Upload File</a>
 <div id='upload_result'>
 <?php 

@@ -10,11 +10,11 @@ if(isset($_POST['submit'])) {
 		}
 		else {
 			$check = user_pass_check($_POST['username'],$_POST['password']); // Call functions from function.php
-			if($check == 1) {
+			if($check==1) {
 				$login_error = "User ".$_POST['username']." not found.";
 			}
 			elseif($check==2) {
-				$login_error = "Incorrect password.";
+				$login_error = "Password is incorrect";
 			}
 			else if($check==0){
 				$_SESSION['username']=$_POST['username']; //Set the $_SESSION['username']
@@ -26,15 +26,14 @@ if(isset($_POST['submit'])) {
 
  
 ?>
-	<form method="post" action="<?php echo "index.php"; ?>">
-
+<form method="post" action="<?php echo "index.php"; ?>">
 	<table width="100%">
 		<tr>
-			<td  width="20%">Username:</td>
+			<td width="20%">Username:</td>
 			<td width="80%"><input class="text"  type="text" name="username"><br /></td>
 		</tr>
 		<tr>
-			<td  width="20%">Password:</td>
+			<td width="20%">Password:</td>
 			<td width="80%"><input class="text"  type="password" name="password"><br /></td>
 		</tr>
 		<tr>
