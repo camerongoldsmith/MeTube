@@ -13,7 +13,7 @@ $mediaid=$_REQUEST['id'];
 
 //insert into upload table
 $insertDownload="insert into download(downloadid,username,mediaid) values(NULL,'$username','$mediaid')";
-$queryresult = mysqli_query($insertDownload)
+$queryresult = mysqli_query($db->db_connect_id, $insertDownload)
 	
 ?>
 

@@ -42,15 +42,15 @@ if(!file_exists($dirfile))
 					$insert = "insert into media(
 							  mediaid, filename,filepath,type)".
 							  "values(NULL,'". urlencode($_FILES["file"]["name"])."','$dirfile','".$_FILES["file"]["type"]."')";
-					$queryresult = mysqli_query($insert)
-						  or die("Insert into Media error in media_upload_process.php " .mysqli_error());
+					$queryresult = mysqli_query($db->db_connect_id, $insert)
+						  or die("Insert into Media error in media_upload_process.php " .mysqli_error($db->db_connect_id));
 					$result="0";
 					
 					$mediaid = mysqli_insert_id();
 					//insert into upload table
 					$insertUpload="insert into upload(uploadid,username,mediaid) values(NULL,'$username','$mediaid')";
-					$queryresult = mysqli_query($insertUpload)
-						  or die("Insert into view error in media_upload_process.php " .mysqli_error());
+					$queryresult = mysqli_query($db->db_connect_id, $insertUpload)
+						  or die("Insert into view error in media_upload_process.php " .mysqli_error($db->db_connect_id));
 				}
 			}
 			else  
