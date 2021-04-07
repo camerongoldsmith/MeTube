@@ -81,10 +81,10 @@ function add_account_to_db($username, $password, $email)
 function user_exists_check($username, $email)
 {
 	global $db;
-     $query = "select * from account where username='$username'";
-     $result = mysqli_query($db->db_connect_id, $query);
-	 $exists = mysqli_num_rows($result);
-     if  (!$result)
+    $query = "select * from account where username='$username'";
+	$result = mysqli_query($db->db_connect_id, $query);
+	$exists = mysqli_num_rows($result);
+    if  (!$result)
     {
         die("user_exists_check() failed. Could not query the database: <br />" . mysqli_error ($db->db_connect_id));
     }
@@ -98,5 +98,21 @@ function user_exists_check($username, $email)
 			 return 0; //User doesn't exist so add to db
 		 }
     }
+}
+
+function update_account($username, $password, $email){
+	//UPDATE `account` SET `username`='test',`password`='pass',`email`='test4@test.com',`type`='1' WHERE 'username' = 'test'
+	global $db;
+	$query = "UPDATE 'account' SET 'username'='$username', 'password'='$password', 'email'='$email', 'type'='1' WHERE 'username' = '$username'";
+	if(!filter_var($email, FILTER_VALIDATE_EMAIL)){
+		return 1; // Email isn't valid
+	}else{
+		$result = mysqli_query($db->db_connect_id, $query);
+		if(!$result){
+			die("update_account() failed. Could not query the database: <br />" . mysqli_error ($db->db_connect_id));
+		}else{
+			return 0; //Update successful
+		}
+	}
 }
 ?>
