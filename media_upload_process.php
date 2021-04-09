@@ -60,7 +60,53 @@ if(!file_exists($dirfile))
 		}
 	}
 	
-	//You can process the error code of the $result here.
+        $channelName = $_POST["channel"];
+	if ($channelName !="newChannel") {
+		
+		$query = "SELECT channelid FROM channel WHERE username='$username' AND channelTitle='$channelName';";
+		$query_result = mysql_query($query);
+		$result_row = mysql_fetch_row($query_result);
+		$channelid = $result_row[0];
+
+
+		//get the media id
+		$query = "SELECT mediaid FROM media WHERE username='$username' order by mediaid desc LIMIT 1;";
+		$query_result = mysql_query($query);
+		$result_row = mysql_fetch_row($query_result);
+		$mediaid = $result_row[0];
+
+		$query = "INSERT INTO channelmedia VALUES(NULL, $channelid ,$mediaid);";
+		$query_result = mysql_query($query)
+			or die ("Insert into channel media fails - needs to be added to channel ".mysql_error());
+
+		
+	}
+	//create a new channel in channel and then add the media to channel media
+	else {
+		$newChannelName = $_POST["nchannel"];
+		$channelDesc = $_POST["channelDesc"];
+
+		$query = "INSERT INTO channel(channelid, channelTitle, username, description) VALUES(NULL, '$newChannelName', '$username', '$channelDesc');";
+		$query_result = mysql_query($query)
+			or die("Insert into channel error".mysql_error());
+
+		//get the channel id
+		$query = "SELECT channelid FROM channel WHERE username='$username' AND channelTitle='$newChannelName';";
+		$query_result = mysql_query($query);
+		$result_row = mysql_fetch_row($query_result);
+		$channelid = $result_row[0];
+
+
+		//get the media id
+		$query = "SELECT mediaid FROM media WHERE username='$username' order by mediaid desc LIMIT 1;";
+		$query_result = mysql_query($query);
+		$result_row = mysql_fetch_row($query_result);
+		$mediaid = $result_row[0];
+
+		$query = "INSERT INTO channelmedia VALUES(NULL, $channelid ,$mediaid);";
+		$query_result = mysql_query($query)
+			or die ("Insert into channel media fails. ".mysql_error());
+	}
 ?>
 
 <meta http-equiv="refresh" content="0;url=browse.php?result=<?php echo $result;?>">
