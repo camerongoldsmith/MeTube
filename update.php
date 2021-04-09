@@ -8,11 +8,23 @@ if(isset($_POST['submit'])){
         $update_error = "Update the field you are wanting to change";
     }else{
         //pull username='$_SESSION['username'] from database
-        $query = "select 'email', 'password' from account where 'username'='$_SESSION['username']'";
+        $currUser = $_SESSION['username'];
+        $query = "select * from account where username='$currUser'";
+        $result = mysqli_query($db->db_connect_id, $query);
+        if  (!$result)
+        {
+            die("updating user profile failed. Could not query the database: <br />" . mysqli_error ($db->db_connect_id));
+        }
+         else {
+             $row = mysqli_fetch_row($result);
+             $currPass = $row[1];
+             $currEmail = $row[2];
+        }
+
         if($_POST['email'] == "" && $_POST['password'] != ""){
-            $updated = update_account($_SESSION['username'], $_POST['password'], $_SESSION['email']);
+            $updated = update_account($_SESSION['username'], $_POST['password'], $currEmail);
         }elseif($_POST['password'] == "" && $_POST['email'] != ""){
-            $updated = update_account($_SESSION['username'], $_SESSION['password'], $_POST['email']);
+            $updated = update_account($_SESSION['username'], $currPass, $_POST['email']);
         }elseif($_POST['password'] != "" && $_POST['email'] != ""){
             $updated = update_account($_SESSION['username'], $_POST['password'], $_POST['email']);
         }
@@ -20,14 +32,14 @@ if(isset($_POST['submit'])){
     if($updated == 1){
         $update_error = "The entered email is not valid";
     }elseif($updated == 0){
-        if($_POST['email'] != ""){
-            $_SESSION['email'] == $_POST['email'];
-        }
-        if($_POST['password' != ""]){
-            $_SESSION['password'] == $_POST['email'];
-        }
-        header('Location: update.php');
+        //Update was successful return to browse page
+        //Possibly add some code to inform user that the update was successful
+        header('Location: browse.php');
     }
+}
+
+if(isset($_POST['back'])){
+    header('Location: browse.php');
 }
 
 ?>
@@ -43,8 +55,8 @@ if(isset($_POST['submit'])){
             <td width="90%"><input class="text" type="password" name="password"><br /></td>
         </tr>
         <tr>
-            <td width="10%"></td>
-            <td width="90%"><input name="submit" type="submit" value="Submit"></td>
+            <td width="10%"><input name="back" type="submit" value="Back to browse"></td>
+            <td width="60%"><input name="submit" type="submit" value="Submit"></td>
         </tr>
     </table>
 </form>

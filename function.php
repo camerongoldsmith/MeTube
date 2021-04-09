@@ -103,8 +103,8 @@ function user_exists_check($username, $email)
 function update_account($username, $password, $email){
 	//UPDATE `account` SET `username`='test',`password`='pass',`email`='test4@test.com',`type`='1' WHERE 'username' = 'test'
 	global $db;
-	$query = "UPDATE 'account' SET 'username'='$username', 'password'='$password', 'email'='$email', 'type'='1' WHERE 'username' = '$username'";
-	if(!filter_var($email, FILTER_VALIDATE_EMAIL)){
+	$query = "UPDATE account SET email = '$email', pword = '$password' WHERE username = '$username'";
+	if($email != "" && !filter_var($email, FILTER_VALIDATE_EMAIL)){
 		return 1; // Email isn't valid
 	}else{
 		$result = mysqli_query($db->db_connect_id, $query);
